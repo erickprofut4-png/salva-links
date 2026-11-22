@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SALVA LINKS</title>
+  <style>
+    :root {
+      --bg: #070b08;
+      --surface: #0e1510;
+      --surface-2: #141f17;
+      --border: #1e3324;
+      --neon: #22ff66;
+      --neon-soft: rgba(34, 255, 102, 0.14);
+      --neon-glow: 0 0 18px rgba(34, 255, 102, 0.28);
+      --text: #f2fff6;
+      --muted: #8ca694;
+      --danger: #fb7185;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(34, 255, 102, 0.08), transparent 45%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.45;
+      padding-bottom: 48px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    header {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 14px;
+      box-shadow: var(--neon-glow);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand-title {
+      font-size: 1.45rem;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      color: var(--neon);
+      text-shadow: 0 0 14px rgba(34, 255, 102, 0.35);
+    }
+
+    .brand-sub {
+      color: var(--muted);
+      font-size: 0.86rem;
+      margin-top: 3px;
+    }
+
+    .pill {
+      background: var(--neon-soft);
+      color: var(--neon);
+      border: 1px solid rgba(34, 255, 102, 0.4);
+      padding: 5px 11px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+
+    .card h2 {
+      font-size: 1.05rem;
+      color: var(--neon);
+      margin-bottom: 12px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    @media (min-width: 680px) {
+      .form-grid {
+        grid-template-columns: 1.1fr 1.5fr 1fr auto;
+        align-items: end;
+      }
+    }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #c7dfd0;
+      margin-bottom: 5px;
+    }
+
+    input, select {
+      width: 100%;
+      background: var(--surface-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 11px 12px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--neon);
+      box-shadow: 0 0 0 2px rgba(34, 255, 102, 0.16);
+    }
+
+    button.primary {
+      background: var(--neon);
+      color: #051108;
+      border: none;
+      border-radius: 12px;
+      padding: 11px 16px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    button.primary:hover {
+      filter: brightness(1.08);
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: var(--surface);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 7px 13px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .filter-btn.active {
+      background: var(--neon-soft);
+      color: var(--neon);
+      border-color: var(--neon);
+    }
+
+    .search-box {
+      max-width: 260px;
+      width: 100%;
+    }
+
+    .links-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    @media (min-width: 640px) {
+      .links-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .link-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .link-cat {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--neon);
+      background: var(--neon-soft);
+      padding: 3px 8px;
+      border-radius: 999px;
+      margin-bottom: 6px;
+    }
+
+    .link-title {
+      font-size: 1rem;
+      font-weight: 800;
+    }
+
+    .link-url {
+      font-size: 0.8rem;
+      color: var(--muted);
+      word-break: break-all;
+      margin-top: 2px;
+    }
+
+    .link-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-open {
+      background: var(--neon);
+      color: #051108;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 7px 12px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .btn-ghost {
+      background: var(--surface-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 7px 11px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--neon);
+      color: var(--neon);
+    }
+
+    .btn-del:hover {
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    .empty {
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--neon);
+      color: #051108;
+      font-weight: 800;
+      font-size: 0.85rem;
+      padding: 10px 18px;
+      border-radius: 999px;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.22s ease;
+      z-index: 999;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <div class="brand-title">SALVA LINKS</div>
+        <div class="brand-sub">#32 • Organizador de links rápidos salvos no navegador</div>
+      </div>
+      <span id="count-pill" class="pill">0 LINKS</span>
+    </header>
+
+    <section class="card">
+      <h2>Adicionar novo link</h2>
+      <form id="link-form" class="form-grid">
+        <div>
+          <label for="titulo">Nome do link</label>
+          <input id="titulo" type="text" placeholder="Ex.: GitHub" required />
+        </div>
+        <div>
+          <label for="url">Endereço (URL)</label>
+          <input id="url" type="text" placeholder="Ex.: https://github.com" required />
+        </div>
+        <div>
+          <label for="categoria">Categoria</label>
+          <select id="categoria">
+            <option value="Ferramentas">Ferramentas</option>
+            <option value="Projetos">Projetos</option>
+            <option value="Redes">Redes</option>
+            <option value="Outros">Outros</option>
+          </select>
+        </div>
+        <button type="submit" class="primary">Salvar link</button>
+      </form>
+    </section>
+
+    <div class="toolbar">
+      <div class="filters" id="filters">
+        <button class="filter-btn active" data-cat="Todos">Todos</button>
+        <button class="filter-btn" data-cat="Ferramentas">Ferramentas</button>
+        <button class="filter-btn" data-cat="Projetos">Projetos</button>
+        <button class="filter-btn" data-cat="Redes">Redes</button>
+        <button class="filter-btn" data-cat="Outros">Outros</button>
+      </div>
+      <input id="busca" class="search-box" type="search" placeholder="Buscar link..." />
+    </div>
+
+    <div id="links-list" class="links-grid"></div>
+  </div>
+
+  <div id="toast" class="toast">Copiado!</div>
+
+  <script>
+    const STORAGE_KEY = 'salva_links_v1';
+    let categoriaAtiva = 'Todos';
+
+    const padraoLinks = [
+      { id: 1, titulo: 'GitHub', url: 'https://github.com', categoria: 'Ferramentas' },
+      { id: 2, titulo: 'Firebase', url: 'https://firebase.google.com', categoria: 'Ferramentas' },
+      { id: 3, titulo: 'ESTÚDIO PRO HUB', url: 'https://erickprofut4-png.github.io/estudio-pro-hub/', categoria: 'Projetos' }
+    ];
+
+    function carregarLinks() {
+      const salvo = localStorage.getItem(STORAGE_KEY);
+      if (!salvo) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(padraoLinks));
+        return [...padraoLinks];
+      }
+      try {
+        return JSON.parse(salvo);
+      } catch {
+        return [...padraoLinks];
+      }
+    }
+
+    function salvarLinks(lista) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(lista));
+    }
+
+    function normalizarUrl(valor) {
+      const limpo = valor.trim();
+      if (!limpo) return '';
+      if (/^https?:\/\//i.test(limpo)) return limpo;
+      return 'https://' + limpo;
+    }
+
+    function mostrarToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 1700);
+    }
+
+    function copiarUrl(url) {
+      navigator.clipboard.writeText(url).then(() => mostrarToast('Link copiado!'));
+    }
+
+    function removerLink(id) {
+      const atual = carregarLinks().filter(item => item.id !== id);
+      salvarLinks(atual);
+      renderLinks();
+      mostrarToast('Link removido');
+    }
+
+    function renderLinks() {
+      const lista = carregarLinks();
+      const termo = document.getElementById('busca').value.trim().toLowerCase();
+      const container = document.getElementById('links-list');
+      const pill = document.getElementById('count-pill');
+
+      pill.textContent = `${lista.length} ${lista.length === 1 ? 'LINK' : 'LINKS'}`;
+
+      const filtrados = lista.filter(item => {
+        const bateCat = categoriaAtiva === 'Todos' || item.categoria === categoriaAtiva;
+        const bateBusca = !termo ||
+          item.titulo.toLowerCase().includes(termo) ||
+          item.url.toLowerCase().includes(termo) ||
+          item.categoria.toLowerCase().includes(termo);
+        return bateCat && bateBusca;
+      });
+
+      if (!filtrados.length) {
+        container.innerHTML = `<div class="empty">Nenhum link encontrado nessa visualização.</div>`;
+        return;
+      }
+
+      container.innerHTML = filtrados.map(item => `
+        <article class="link-item">
+          <div>
+            <span class="link-cat">${item.categoria}</span>
+            <div class="link-title">${item.titulo}</div>
+            <div class="link-url">${item.url}</div>
+          </div>
+          <div class="link-actions">
+            <a class="btn-open" href="${item.url}" target="_blank" rel="noopener noreferrer">Abrir</a>
+            <button class="btn-ghost" onclick="copiarUrl('${item.url.replace(/'/g, "\\'")}')">Copiar</button>
+            <button class="btn-ghost btn-del" onclick="removerLink(${item.id})">Excluir</button>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    document.getElementById('link-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const titulo = document.getElementById('titulo').value.trim();
+      const url = normalizarUrl(document.getElementById('url').value);
+      const categoria = document.getElementById('categoria').value;
+      if (!titulo || !url) return;
+
+      const atual = carregarLinks();
+      atual.unshift({ id: Date.now(), titulo, url, categoria });
+      salvarLinks(atual);
+
+      document.getElementById('titulo').value = '';
+      document.getElementById('url').value = '';
+      renderLinks();
+      mostrarToast('Link salvo!');
+    });
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        categoriaAtiva = btn.getAttribute('data-cat');
+        renderLinks();
+      });
+    });
+
+    document.getElementById('busca').addEventListener('input', renderLinks);
+
+    renderLinks();
+  </script>
+</body>
+</html>
